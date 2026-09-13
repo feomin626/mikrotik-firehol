@@ -2,12 +2,14 @@ name: Update FireHOL Level 1
 
 on:
   schedule:
-    - cron: "0 2 * * *"   # každý deň o 02:00
-  workflow_dispatch:       # manuálne spustenie
+    - cron: "0 2 * * *"
+  workflow_dispatch:
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -31,5 +33,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add firehol_mikrotik.rsc
-          git commit -m "Auto-update FireHOL Level 1"
+          git commit -m "Auto-update FireHOL Level 1" || echo "No changes to commit"
           git push
