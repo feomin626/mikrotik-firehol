@@ -1,3 +1,4 @@
+
 /ip firewall address-list add list=global_Blacklist address=0.0.0.0/8
 /ip firewall address-list add list=global_Blacklist address=1.10.16.0/20
 /ip firewall address-list add list=global_Blacklist address=1.19.0.0/16
