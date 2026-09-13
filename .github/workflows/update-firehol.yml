@@ -1,0 +1,35 @@
+name: Update FireHOL Level 1
+
+on:
+  schedule:
+    - cron: "0 2 * * *"   # každý deň o 02:00
+  workflow_dispatch:       # manuálne spustenie
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download FireHOL Level 1
+        run: |
+          curl -o firehol_level1.netset https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset
+
+      - name: Convert to MikroTik .rsc
+        run: |
+          echo "" > firehol_mikrotik.rsc
+          while IFS= read -r line; do
+            if [[ "$line" =~ "/" ]] && [[ ! "$line" =~ "#" ]]; then
+              echo "/ip firewall address-list add list=global_Blacklist address=$line" >> firehol_mikrotik.rsc
+            fi
+          done < firehol_level1.netset
+
+      - name: Commit updated file
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add firehol_mikrotik.rsc
+          git commit -m "Auto-update FireHOL Level 1"
+          git push
