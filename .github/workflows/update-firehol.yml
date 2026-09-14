@@ -1,37 +1,18 @@
-name: Update FireHOL Level 1
+/system script add name=auto_firehol_update source="
+/log info \"FIREHOL UPDATE START\"
 
-on:
-  schedule:
-    - cron: "0 2 * * *"
-  workflow_dispatch:
+/ip firewall address-list remove [find list=global_Blacklist]
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+/tool fetch url=\"https://raw.githubusercontent.com/feomin626/mikrotik-firehol/refs/heads/main/firehol_mikrotik.rsc\" dst-path=firehol_update.rsc
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+/import file-name=firehol_update.rsc
 
-      - name: Download FireHOL Level 1
-        run: |
-          curl -o firehol_level1.netset https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset
+/ip firewall address-list remove [find list=global_Blacklist address=\"0.0.0.0/8\"]
+/ip firewall address-list remove [find list=global_Blacklist address~\"10.\"] 
+/ip firewall address-list remove [find list=global_Blacklist address=\"127.0.0.0/8\"]
+/ip firewall address-list remove [find list=global_Blacklist address=\"169.254.0.0/16\"]
+/ip firewall address-list remove [find list=global_Blacklist address=\"172.16.0.0/12\"]
+/ip firewall address-list remove [find list=global_Blacklist address=\"192.168.0.0/16\"]
 
-      - name: Convert to MikroTik .rsc
-        run: |
-          echo "" > firehol_mikrotik.rsc
-          while IFS= read -r line; do
-            if [[ "$line" =~ "/" ]] && [[ ! "$line" =~ "#" ]]; then
-              echo "/ip firewall address-list add list=global_Blacklist address=$line" >> firehol_mikrotik.rsc
-            fi
-          done < firehol_level1.netset
-
-      - name: Commit updated file
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git add firehol_mikrotik.rsc
-          git commit -m "Auto-update FireHOL Level 1" || echo "No changes to commit"
-          git push
+/log info \"FIREHOL UPDATE DONE\"
+"
