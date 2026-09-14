@@ -1,18 +1,26 @@
-/system script add name=auto_firehol_update source="
-/log info \"FIREHOL UPDATE START\"
+name: Update FireHOL Level 1
 
-/ip firewall address-list remove [find list=global_Blacklist]
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
 
-/tool fetch url=\"https://raw.githubusercontent.com/feomin626/mikrotik-firehol/refs/heads/main/firehol_mikrotik.rsc\" dst-path=firehol_update.rsc
+jobs:
+  update:
+    runs-on: ubuntu-latest
 
-/import file-name=firehol_update.rsc
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-/ip firewall address-list remove [find list=global_Blacklist address=\"0.0.0.0/8\"]
-/ip firewall address-list remove [find list=global_Blacklist address~\"10.\"] 
-/ip firewall address-list remove [find list=global_Blacklist address=\"127.0.0.0/8\"]
-/ip firewall address-list remove [find list=global_Blacklist address=\"169.254.0.0/16\"]
-/ip firewall address-list remove [find list=global_Blacklist address=\"172.16.0.0/12\"]
-/ip firewall address-list remove [find list=global_Blacklist address=\"192.168.0.0/16\"]
+      - name: Download FireHOL Level 1
+        run: |
+          curl -o firehol_mikrotik.rsc https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset
 
-/log info \"FIREHOL UPDATE DONE\"
-"
+      - name: Commit updated file
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add firehol_mikrotik.rsc
+          git commit -m "Update FireHOL Level 1"
+          git push
