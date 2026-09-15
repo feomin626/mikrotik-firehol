@@ -15,10 +15,23 @@ jobs:
 
       - name: Download FireHOL Level 1
         run: |
-          curl -o firehol_mikrotik.rsc https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset
+          curl -f -o firehol_level1.netset https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset || exit 0
 
-      - name: Commit updated file
+      - name: Convert to MikroTik format
         run: |
+          echo "" > firehol_mikrotik.rsc
+          while IFS= read -r line; do
+            if [[ "$line" =~ "/" ]] && [[ ! "$line" =~ "#" ]]; then
+              echo "/ip firewall address-list add list=global_Blacklist address=$line" >> firehol_mikrotik.rsc
+            fi
+          done < firehol_level1.netset
+
+      - name: Commit only if changed
+        run: |
+          if git diff --quiet firehol_mikrotik.rsc; then
+            echo "No changes in FireHOL list."
+            exit 0
+          fi
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add firehol_mikrotik.rsc
