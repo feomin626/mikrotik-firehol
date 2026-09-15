@@ -28,7 +28,7 @@ jobs:
 
       - name: Commit only if changed
         run: |
-          if git status --porcelain | grep firehol_mikrotik.rsc; then
+          if git status --porcelain | grep -q firehol_mikrotik.rsc; then
             git config user.name "GitHub Actions"
             git config user.email "actions@github.com"
             git add firehol_mikrotik.rsc
