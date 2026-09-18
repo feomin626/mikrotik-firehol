@@ -15,22 +15,43 @@ jobs:
 
       - name: Download FireHOL Level 1
         run: |
-          curl -f -o firehol_level1.netset https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset || exit 0
+          set -euo pipefail
+
+          curl --fail --silent --show-error --location \
+            -o firehol_level1.netset \
+            https://raw.githubusercontent.com/firehol/blocklist-ipsets/master/firehol_level1.netset
+
+          test -s firehol_level1.netset
 
       - name: Convert to MikroTik format
         run: |
-          echo "" > firehol_mikrotik.rsc
+          set -euo pipefail
+
+          : > firehol_mikrotik.rsc
+
           while IFS= read -r line; do
             if [[ "$line" =~ "/" ]] && [[ ! "$line" =~ "#" ]]; then
               echo "/ip firewall address-list add list=global_Blacklist address=$line" >> firehol_mikrotik.rsc
             fi
           done < firehol_level1.netset
 
+          COUNT=$(grep -c '^/ip firewall address-list add' firehol_mikrotik.rsc)
+
+          echo "Generated entries: $COUNT"
+
+          if [ "$COUNT" -lt 1000 ]; then
+            echo "FireHOL list looks incomplete - refusing to continue"
+            exit 1
+          fi
+
       - name: Commit only if changed
         run: |
+          set -euo pipefail
+
           if git status --porcelain | grep -q firehol_mikrotik.rsc; then
             git config user.name "GitHub Actions"
             git config user.email "actions@github.com"
+
             git add firehol_mikrotik.rsc
             git commit -m "Update FireHOL Level 1"
             git push
