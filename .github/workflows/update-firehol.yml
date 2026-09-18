@@ -31,7 +31,7 @@ jobs:
 
           while IFS= read -r line; do
             if [[ "$line" =~ "/" ]] && [[ ! "$line" =~ "#" ]]; then
-              echo "/ip firewall address-list add list=global_Blacklist address=$line" >> firehol_mikrotik.rsc
+              echo "/ip firewall address-list add list=global_Blacklist_NEW address=$line" >> firehol_mikrotik.rsc
             fi
           done < firehol_level1.netset
 
