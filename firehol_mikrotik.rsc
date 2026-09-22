@@ -246,6 +246,7 @@
 /ip firewall address-list add list=global_Blacklist_NEW address=45.192.211.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=45.194.92.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=45.197.176.0/22
+/ip firewall address-list add list=global_Blacklist_NEW address=45.198.224.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=45.221.116.0/22
 /ip firewall address-list add list=global_Blacklist_NEW address=45.230.66.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=45.248.88.0/22
@@ -301,6 +302,7 @@
 /ip firewall address-list add list=global_Blacklist_NEW address=66.132.172.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=66.132.186.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=66.132.195.0/24
+/ip firewall address-list add list=global_Blacklist_NEW address=66.132.224.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=66.198.225.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=67.219.208.0/20
 /ip firewall address-list add list=global_Blacklist_NEW address=69.5.169.0/24
@@ -326,6 +328,7 @@
 /ip firewall address-list add list=global_Blacklist_NEW address=77.109.3.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=77.244.221.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=78.40.143.0/24
+/ip firewall address-list add list=global_Blacklist_NEW address=78.128.114.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=78.153.140.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=79.124.62.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=80.94.92.0/22
@@ -353,6 +356,8 @@
 /ip firewall address-list add list=global_Blacklist_NEW address=85.203.46.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=85.208.212.0/22
 /ip firewall address-list add list=global_Blacklist_NEW address=85.209.204.0/22
+/ip firewall address-list add list=global_Blacklist_NEW address=85.217.140.0/24
+/ip firewall address-list add list=global_Blacklist_NEW address=85.217.149.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=85.217.216.0/22
 /ip firewall address-list add list=global_Blacklist_NEW address=85.239.144.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=86.54.25.0/24
@@ -1605,7 +1610,6 @@
 /ip firewall address-list add list=global_Blacklist_NEW address=155.233.0.0/16
 /ip firewall address-list add list=global_Blacklist_NEW address=155.249.0.0/16
 /ip firewall address-list add list=global_Blacklist_NEW address=156.0.199.0/24
-/ip firewall address-list add list=global_Blacklist_NEW address=156.225.1.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=156.226.209.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=156.234.43.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=156.247.40.0/24
@@ -2175,7 +2179,6 @@
 /ip firewall address-list add list=global_Blacklist_NEW address=192.253.248.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=193.3.164.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=193.24.123.0/24
-/ip firewall address-list add list=global_Blacklist_NEW address=193.25.217.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=193.26.115.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=193.30.144.0/20
 /ip firewall address-list add list=global_Blacklist_NEW address=193.30.241.0/24
@@ -4456,7 +4459,6 @@
 /ip firewall address-list add list=global_Blacklist_NEW address=204.235.240.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=204.235.242.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=204.235.252.0/24
-/ip firewall address-list add list=global_Blacklist_NEW address=204.236.0.0/19
 /ip firewall address-list add list=global_Blacklist_NEW address=204.238.40.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=204.238.121.0/24
 /ip firewall address-list add list=global_Blacklist_NEW address=204.238.137.0/24
